@@ -1,5 +1,5 @@
 require("dotenv").config();
-import express from "express";
+import express, { Request, Response } from "express";
 import Anthropic from "@anthropic-ai/sdk";
 import { BASE_PROMPT, getSystemPrompt } from "./prompts";
 import { ContentBlock, TextBlock } from "@anthropic-ai/sdk/resources";
@@ -12,7 +12,7 @@ const app = express();
 app.use(cors())
 app.use(express.json())
 
-app.post("/template", async (req, res) => {
+app.post("/template", async (req: Request, res: Response) => {
     const prompt = req.body.prompt;
     
     const response = await anthropic.messages.create({
@@ -46,7 +46,7 @@ app.post("/template", async (req, res) => {
 
 })
 
-app.post("/chat", async (req, res) => {
+app.post("/chat", async (req: Request, res: Response) => {
     const messages = req.body.messages;
     const response = await anthropic.messages.create({
         messages: messages,
@@ -62,5 +62,7 @@ app.post("/chat", async (req, res) => {
     });
 })
 
-app.listen(3000);
+app.listen(3000, () => {
+  console.log('Backend server running at http://localhost:3000');
+});
 
